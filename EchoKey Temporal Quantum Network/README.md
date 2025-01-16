@@ -21,10 +21,7 @@ A CUDA-accelerated implementation for interacting with the temporal quantum netw
 - Logging
 
 ## Installation
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/temporal-quantum-guest.git
-
+```
 # Install dependencies
 pip install numpy numba logging
 ```
