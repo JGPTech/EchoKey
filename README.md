@@ -1,3 +1,13 @@
+🚨 Authorship and Integrity Notice
+
+EchoKey is an original, independent research framework developed and authored by Jon Poplett. It has been publicly documented, iteratively refined, and freely shared for academic collaboration. This work is licensed openly and transparently for the benefit of the research community and the future of science.
+
+If you are using or building on EchoKey, please cite the official GitHub repository. Attempts to claim sole ownership of the theory without attribution or acknowledgment of its origin undermine the spirit of open research.
+
+We do not gatekeep discovery. We build. EchoKey is for everyone ready to understand and evolve complexity—together.
+
+
+
 # EchoKey: Exploring Complex Systems Through a Unified Mathematical Framework
 
 Welcome to the EchoKey research page!
