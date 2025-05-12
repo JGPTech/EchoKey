@@ -91,3 +91,19 @@ This research delves into the theoretical realm of quantum gravity, investigatin
 *   Resonance Points: Identifies specific times where strong overlap between quantum and classical states occurs.
 *   Layer Evolution: Observes the dynamic evolution of quantum and classical layers during the simulation.
 *   Convergence Analysis: Analyzes metrics like uncertainty product, coherence, entropy, and state similarity.
+
+
+
+## 🔶 Seeking Research Support
+
+I'm an independent researcher with a published open-source mathematical framework: [EchoKey](https://zenodo.org/records/15377267). It models complex systems using principles from quantum mechanics, fractal geometry, and recursion, and has been successfully implemented in three distinct projects:
+
+- 🔐 EchoKey Encryption System
+- ⚛️ Quantum-Classical Hybrid Sequencer
+- 🌌 EchoKey-EFECGSC (Quantum Gravity Simulation)
+
+I am seeking $95,000 CAD in direct funding to continue full-time development of EchoKey, with **100% of funds going toward survival** (no overhead, no admin).
+
+If you’d like to support or sponsor this research, contact me at [Jonpoplett@mail.com]
+Let’s build something that outlives us.
+
