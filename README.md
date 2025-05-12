@@ -104,6 +104,6 @@ I'm an independent researcher with a published open-source mathematical framewor
 
 I am seeking $95,000 CAD in direct funding to continue full-time development of EchoKey, with **100% of funds going toward survival** (no overhead, no admin).
 
-If you’d like to support or sponsor this research, contact me at [Jonpoplett@mail.com]
+If you’d like to support or sponsor this research, contact me at [Jonpoplett@JGPTech.net]
 Let’s build something that outlives us.
 
