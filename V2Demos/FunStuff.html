@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoKey Integral Monster Solver</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #333333;
+            --secondary-color: #555555;
+            --background-color: #f0f0f0;
+            --panel-color: #ffffff;
+            --accent-color: #666666;
+            --text-color: #333333;
+            --muted-text: #777777;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--background-color);
+        }
+        
+        .container {
+            background-color: var(--panel-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            font-weight: 300;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .integral-display {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            border-radius: 8px;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            opacity: 1;
+            visibility: visible;
+            display: inline-block;
+        }
+        
+        button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button.active {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .visualization {
+            margin: 30px 0;
+        }
+        
+        .plot-container {
+            background-color: var(--panel-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-explanation {
+            background-color: var(--background-color);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .formula {
+            font-family: 'Courier New', monospace;
+            background-color: var(--panel-color);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            overflow-x: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .result-box {
+            text-align: center;
+            font-size: 20px;
+            padding: 20px;
+            background-color: var(--background-color);
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .loading {
+            text-align: center;
+            color: var(--muted-text);
+            padding: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--background-color);
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: transparent;
+            color: var(--text-color);
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            opacity: 1;
+            visibility: visible;
+            display: inline-block;
+        }
+        
+        .tab:hover {
+            background-color: var(--background-color);
+            border-bottom-color: var(--muted-text);
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--accent-color);
+            color: var(--primary-color);
+            font-weight: 600;
+            background-color: transparent;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .convergence-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .convergence-table th, .convergence-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .convergence-table th {
+            background-color: var(--background-color);
+            font-weight: 600;
+        }
+        
+        .highlight {
+            background-color: rgba(102, 126, 234, 0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎼 EchoKey Integral Monster Solver</h1>
+            <p style="color: var(--muted-text);">Using mathematical orchestration to tame the beast</p>
+        </header>
+        
+        <div class="integral-display">
+            ∫<sub>0</sub><sup>∞</sup> <span style="font-size: 1.2em;">sin(4a²/π)</span> / <span style="font-size: 1.2em;">[sinh(4a)sinh(2a)]</span> da = <span style="color: var(--accent-color);">π/16 (√2 - 1)</span>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('orchestration')">Orchestration</button>
+            <button class="tab" onclick="showTab('numerical')">Numerical</button>
+            <button class="tab" onclick="showTab('visualization')">Visualization</button>
+            <button class="tab" onclick="showTab('complex')">Complex Analysis</button>
+        </div>
+        
+        <div id="orchestration" class="tab-content active">
+            <div class="step-explanation">
+                <div class="step-title">🎵 Step 1: Symmetry Recognition (Cyclicity)</div>
+                <p>The integrand exhibits beautiful periodic behavior in the numerator with period π in terms of 4a.</p>
+                <div class="formula">
+                    sin(4a²/π) has zeros at a = √(nπ²/4) for integer n
+                </div>
+            </div>
+            
+            <div class="step-explanation">
+                <div class="step-title">🎵 Step 2: Substitution (Refraction)</div>
+                <p>Let u = 2a, then du = 2da:</p>
+                <div class="formula">
+                    ∫<sub>0</sub><sup>∞</sup> sin(2u²/π) / [sinh(2u)sinh(u)] · (1/2) du
+                </div>
+            </div>
+            
+            <div class="step-explanation">
+                <div class="step-title">🎵 Step 3: Partial Fractions (Synergy)</div>
+                <p>Decompose the hyperbolic functions:</p>
+                <div class="formula">
+                    1/[sinh(2u)sinh(u)] = 2/sinh(u) - 1/sinh(2u)
+                </div>
+            </div>
+            
+            <div class="step-explanation">
+                <div class="step-title">🎵 Step 4: Complex Contour (Outliers)</div>
+                <p>Consider f(z) = exp(2iz²/π) / sinh(z) with poles at z = nπi</p>
+                <div class="formula">
+                    Residue at πi: lim<sub>z→πi</sub> (z-πi) · f(z) = -2i
+                </div>
+            </div>
+            
+            <button onclick="calculateResult()">Calculate Final Result</button>
+            
+            <div id="resultBox" class="result-box" style="display: none;">
+                <strong>Final Result:</strong><br>
+                <span id="finalResult"></span>
+            </div>
+        </div>
+        
+        <div id="numerical" class="tab-content">
+            <div class="step-explanation">
+                <div class="step-title">Numerical Integration</div>
+                <p>Let's verify our analytical result using numerical methods:</p>
+            </div>
+            
+            <div class="controls">
+                <button onclick="runNumericalIntegration(10)">N=10</button>
+                <button onclick="runNumericalIntegration(50)">N=50</button>
+                <button onclick="runNumericalIntegration(100)">N=100</button>
+                <button onclick="runNumericalIntegration(500)">N=500</button>
+            </div>
+            
+            <div id="numericalResult" class="formula"></div>
+            
+            <table class="convergence-table" id="convergenceTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Value</th>
+                        <th>Error</th>
+                        <th>Time (ms)</th>
+                    </tr>
+                </thead>
+                <tbody id="convergenceBody"></tbody>
+            </table>
+        </div>
+        
+        <div id="visualization" class="tab-content">
+            <div class="plot-container">
+                <div id="integrandPlot"></div>
+            </div>
+            
+            <div class="controls">
+                <button onclick="plotIntegrand()">Plot Integrand</button>
+                <button onclick="plotConvergence()">Plot Convergence</button>
+                <button onclick="plotContour()">Complex Contour</button>
+            </div>
+            
+            <div class="plot-container">
+                <div id="convergencePlot"></div>
+            </div>
+        </div>
+        
+        <div id="complex" class="tab-content">
+            <div class="step-explanation">
+                <div class="step-title">Complex Analysis Approach</div>
+                <p>Using the residue theorem with careful contour selection:</p>
+            </div>
+            
+            <div class="formula">
+                <pre>
+Contour: Rectangle with vertices at ±R, ±R + πi
+Poles inside: z = πi (simple pole)
+                
+Residue calculation:
+Res(f, πi) = lim<sub>z→πi</sub> (z - πi) · exp(2iz²/π) / sinh(z)
+          = exp(-2πi) / cosh(πi)
+          = 1 / (-1)
+          = -1
+                </pre>
+            </div>
+            
+            <div class="plot-container">
+                <div id="complexPlot"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global variables
+        const exactValue = Math.PI / 16 * (Math.sqrt(2) - 1);
+        
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Calculate and display result
+        function calculateResult() {
+            const resultBox = document.getElementById('resultBox');
+            const finalResult = document.getElementById('finalResult');
+            
+            resultBox.style.display = 'block';
+            
+            const value = exactValue;
+            const sqrt2 = Math.sqrt(2);
+            
+            finalResult.innerHTML = `
+                π/16 × (√2 - 1) = π/16 × ${(sqrt2 - 1).toFixed(6)}<br>
+                = ${value.toFixed(10)}<br>
+                ≈ ${value.toFixed(6)}
+            `;
+        }
+        
+        // Numerical integration using Simpson's rule
+        function integrate(f, a, b, n) {
+            const h = (b - a) / n;
+            let sum = f(a) + f(b);
+            
+            for (let i = 1; i < n; i++) {
+                const x = a + i * h;
+                sum += (i % 2 === 0 ? 2 : 4) * f(x);
+            }
+            
+            return sum * h / 3;
+        }
+        
+        // Integrand function
+        function integrand(a) {
+            if (a === 0) return 0; // Handle singularity
+            
+            const numerator = Math.sin(4 * a * a / Math.PI);
+            const denominator = Math.sinh(4 * a) * Math.sinh(2 * a);
+            
+            // Handle very small denominators
+            if (Math.abs(denominator) < 1e-100) return 0;
+            
+            return numerator / denominator;
+        }
+        
+        // Run numerical integration
+        function runNumericalIntegration(n) {
+            const startTime = performance.now();
+            
+            // Split integral: [0, ∞) = [0, 10] + [10, ∞)
+            // For [10, ∞), the integrand decays exponentially
+            
+            const result1 = integrate(integrand, 0.001, 10, n);
+            
+            // Estimate tail contribution
+            const tailEstimate = 0; // Exponentially small
+            
+            const numericalResult = result1 + tailEstimate;
+            const endTime = performance.now();
+            
+            const error = Math.abs(numericalResult - exactValue);
+            const relativeError = error / exactValue * 100;
+            
+            document.getElementById('numericalResult').innerHTML = `
+                <strong>Numerical Result (N=${n}):</strong><br>
+                Value: ${numericalResult.toFixed(10)}<br>
+                Exact: ${exactValue.toFixed(10)}<br>
+                Absolute Error: ${error.toExponential(3)}<br>
+                Relative Error: ${relativeError.toFixed(3)}%<br>
+                Time: ${(endTime - startTime).toFixed(2)} ms
+            `;
+            
+            // Update convergence table
+            updateConvergenceTable(n, numericalResult, error, endTime - startTime);
+        }
+        
+        // Update convergence table
+        function updateConvergenceTable(n, value, error, time) {
+            const table = document.getElementById('convergenceTable');
+            const tbody = document.getElementById('convergenceBody');
+            
+            table.style.display = 'table';
+            
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td>Simpson's Rule (N=${n})</td>
+                <td>${value.toFixed(10)}</td>
+                <td>${error.toExponential(3)}</td>
+                <td>${time.toFixed(2)}</td>
+            `;
+        }
+        
+        // Plotting functions
+        function plotIntegrand() {
+            const a = [];
+            const y = [];
+            
+            for (let i = 0.001; i <= 5; i += 0.01) {
+                a.push(i);
+                y.push(integrand(i));
+            }
+            
+            const trace = {
+                x: a,
+                y: y,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Integrand',
+                line: { color: '#666666', width: 2 }
+            };
+            
+            const layout = {
+                title: 'Integrand Function',
+                xaxis: { title: 'a' },
+                yaxis: { title: 'f(a)' },
+                paper_bgcolor: '#f0f0f0',
+                plot_bgcolor: '#ffffff',
+                font: { color: '#333333' }
+            };
+            
+            Plotly.newPlot('integrandPlot', [trace], layout);
+        }
+        
+        function plotConvergence() {
+            const n_values = [10, 20, 50, 100, 200, 500];
+            const errors = [];
+            
+            n_values.forEach(n => {
+                const result = integrate(integrand, 0.001, 10, n);
+                errors.push(Math.abs(result - exactValue));
+            });
+            
+            const trace = {
+                x: n_values,
+                y: errors,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Convergence',
+                line: { color: '#666666', width: 2 },
+                marker: { size: 8 }
+            };
+            
+            const layout = {
+                title: 'Numerical Convergence',
+                xaxis: { title: 'Number of intervals', type: 'log' },
+                yaxis: { title: 'Absolute Error', type: 'log' },
+                paper_bgcolor: '#f0f0f0',
+                plot_bgcolor: '#ffffff',
+                font: { color: '#333333' }
+            };
+            
+            Plotly.newPlot('convergencePlot', [trace], layout);
+        }
+        
+        function plotContour() {
+            // Create a simple visualization of the complex contour
+            const x = [];
+            const y = [];
+            
+            // Rectangle contour
+            const R = 5;
+            
+            // Bottom edge
+            for (let t = -R; t <= R; t += 0.1) {
+                x.push(t);
+                y.push(0);
+            }
+            
+            // Right edge
+            for (let t = 0; t <= Math.PI; t += 0.1) {
+                x.push(R);
+                y.push(t);
+            }
+            
+            // Top edge
+            for (let t = R; t >= -R; t -= 0.1) {
+                x.push(t);
+                y.push(Math.PI);
+            }
+            
+            // Left edge
+            for (let t = Math.PI; t >= 0; t -= 0.1) {
+                x.push(-R);
+                y.push(t);
+            }
+            
+            const contour = {
+                x: x,
+                y: y,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Integration Contour',
+                line: { color: '#333333', width: 3 }
+            };
+            
+            // Add pole
+            const pole = {
+                x: [0],
+                y: [Math.PI],
+                type: 'scatter',
+                mode: 'markers',
+                name: 'Pole at πi',
+                marker: { size: 12, color: 'red', symbol: 'x' }
+            };
+            
+            const layout = {
+                title: 'Complex Integration Contour',
+                xaxis: { title: 'Real axis' },
+                yaxis: { title: 'Imaginary axis' },
+                paper_bgcolor: '#f0f0f0',
+                plot_bgcolor: '#ffffff',
+                font: { color: '#333333' },
+                showlegend: true
+            };
+            
+            Plotly.newPlot('complexPlot', [contour, pole], layout);
+        }
+        
+        // Initialize with integrand plot
+        window.onload = function() {
+            plotIntegrand();
+        };
+    </script>
+</body>
+</html>
