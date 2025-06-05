@@ -1,0 +1,7 @@
+numpy>=1.21.0
+sympy>=1.9
+matplotlib>=3.4.0
+jupyter>=1.0.0
+pytest>=6.2.0
+black>=21.6b0
+flake8>=3.9.0
