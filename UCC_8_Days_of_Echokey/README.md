@@ -70,14 +70,16 @@ rest of the compiler can optimize, commute, and hardware-target natively.
 
 ## Why the 7-operator frame?
 
-At each site we choose 7 unit vectors (rows of $A\in\mathbb{R}^{7\times 3}$).
-Any EchoKey Hamiltonian $H_\text{EK}(\mathbf c)=\sum_k c_k(\mathbf a_k\cdot\sigma)$ equals
-$(A^T\mathbf c)\cdot\sigma$. When `rank(A)=3`, the **right inverse**
-$B=(A^TA)^{-1}A^T$ yields
+At each site we choose 7 unit vectors (rows of \(A\in\mathbb{R}^{7\times 3}\)).
+Any EchoKey Hamiltonian
+\(H_{\mathrm{EK}}(\mathbf{c})=\sum_k c_k\,(\mathbf{a}_k\cdot\boldsymbol{\sigma})\)
+equals \((A^{\top}\mathbf{c})\cdot\boldsymbol{\sigma}\).
+When `rank(A)=3`, the **right inverse**
+\(B=(A^{\top}A)^{-1}A^{\top}\) yields
 
-$$
-S_i=\sum_k B_{ik} E_k^\circ = \sigma_i,
-$$
+\[
+S_i \;=\; \sum_k B_{ik}\, E_k^{\circ} \;=\; \sigma_i \, .
+\]
 
 so **Pauli emerges** from EchoKey. `ghettomath.py` prints the checks (orthonormality,
 commutators, condition numbers).
@@ -102,10 +104,11 @@ commutators, condition numbers).
 
 ## License & Citation
 
-MIT (or your choice). If you use this, please cite “8 Days of EchoKey — Day 1: Cyclicity → ZYZ”.
+CC0. If you use this, please cite “8 Days of EchoKey — Day 1: Cyclicity → ZYZ”.
 
 ---
 
 Happy compiling ✨
 
 ```
+
