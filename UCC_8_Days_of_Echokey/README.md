@@ -1,5 +1,3 @@
----
-
 # 8 Days of EchoKey — Days 1–2
 
 A tiny, reproducible repo that introduces the **EchoKey** operator family and a **layout-aware Z–Y–Z rewrite** suitable for the Unitary Compiler Collection (UCC).
