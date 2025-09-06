@@ -18,7 +18,7 @@ Day 1 covers **Cyclicity**; Day 2 adds **Recursion**. Both compile symbolic Echo
   * Same **ZYZ rewrite** + **layout-aware** axis resolution
   * Materializer + fidelity checks (expect ≈ 1.0)
 
-* `echokey_axisgate.py` — **Unified Day 1+2** (stand-alone, walkthrough in comments)
+* `combined_one_two.py` — **Unified Day 1+2** (stand-alone, walkthrough in comments)
 
   * `EchoKeyAxisGate(k, θ)` for k∈{0..6}; Day 1 uses k=0, Day 2 uses k=1
   * Exact ZYZ rewrite, layout-aware per-site frames `A^(p)`
@@ -32,8 +32,6 @@ Day 1 covers **Cyclicity**; Day 2 adds **Recursion**. Both compile symbolic Echo
   * Verifies orthonormality & commutators; single-/two-qubit circuit equivalence
 
 * `GhettoMath.pdf` — LaTeX walkthrough of the **7-operator frame** and emergence
-
-* `8daysofechokey.pdf` — Day-1 pass walkthrough: axis–angle → ZYZ, layout handling, verification
 
 ## Install
 
@@ -94,17 +92,17 @@ Expected:
 
 Day-1 defines
 
-$$
-\texttt{ek\_cyc}(\theta)\;=\;\exp\!\big(-i\,\theta\,(\mathbf a_1\!\cdot\!\boldsymbol\sigma)\big),
-$$
+\[
+\operatorname{ek\_cyc}(\theta)\;\coloneqq\;\exp\!\big(-i\,\theta\,(\mathbf{a}_1\!\cdot\!\boldsymbol{\sigma})\big),
+\]
 
 a Bloch rotation by angle $2\theta$ about per-wire axis $\hat{\mathbf a}_1$.
 
 Day-2 defines
 
-$$
-\texttt{ek\_rec}(\theta)\;=\;\exp\!\big(-i\,\theta\,(\mathbf a_2\!\cdot\!\boldsymbol\sigma)\big),
-$$
+\[
+\operatorname{ek\_rec}(\theta)\;\coloneqq\;\exp\!\big(-i\,\theta\,(\mathbf{a}_2\!\cdot\!\boldsymbol{\sigma})\big).
+\]
 
 a Bloch rotation by angle $2\theta$ about per-wire axis $\hat{\mathbf a}_2$.
 
@@ -164,3 +162,4 @@ If you use this, please cite:
 ---
 
 Happy compiling ✨
+
