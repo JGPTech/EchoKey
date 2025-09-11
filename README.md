@@ -1,13 +1,3 @@
-🚨 Authorship and Integrity Notice
-
-EchoKey is an original, independent research framework developed and authored by Jon Poplett. It has been publicly documented, iteratively refined, and freely shared for academic collaboration. This work is licensed openly and transparently for the benefit of the research community and the future of science.
-
-If you are using or building on EchoKey, please cite the official GitHub repository. Attempts to claim sole ownership of the theory without attribution or acknowledgment of its origin undermine the spirit of open research.
-
-We do not gatekeep discovery. We build. EchoKey is for everyone ready to understand and evolve complexity—together.
-
-
-
 # EchoKey: Exploring Complex Systems Through a Unified Mathematical Framework
 
 Welcome to the EchoKey research page!
@@ -92,18 +82,4 @@ This research delves into the theoretical realm of quantum gravity, investigatin
 *   Layer Evolution: Observes the dynamic evolution of quantum and classical layers during the simulation.
 *   Convergence Analysis: Analyzes metrics like uncertainty product, coherence, entropy, and state similarity.
 
-
-
-## 🔶 Seeking Research Support
-
-I'm an independent researcher with a published open-source mathematical framework: [EchoKey](https://zenodo.org/records/15377267). It models complex systems using principles from quantum mechanics, fractal geometry, and recursion, and has been successfully implemented in three distinct projects:
-
-- 🔐 EchoKey Encryption System
-- ⚛️ Quantum-Classical Hybrid Sequencer
-- 🌌 EchoKey-EFECGSC (Quantum Gravity Simulation)
-
-I am seeking $95,000 CAD in direct funding to continue full-time development of EchoKey, with **100% of funds going toward survival** (no overhead, no admin).
-
-If you’d like to support or sponsor this research, contact me at [Jonpoplett@JGPTech.net]
-Let’s build something that outlives us.
 
