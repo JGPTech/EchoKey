@@ -1,32 +1,50 @@
-# 8 Days of EchoKey — Days 1–6
+# 8 Days of EchoKey — Days 1–8
 
-A tiny, reproducible repo introducing the **EchoKey** operator family and a **layout-aware Z–Y–Z rewrite** suitable for the Unitary Compiler Collection (UCC).
-Day 1: **Cyclicity**; Day 2: **Recursion**; Day 3: **Fractality** (with a **Z-axis fast path**); Day 4: **Diagonality-XY**; Day 5: **Diagonality-YZ**; Day 6: **Diagonality-XZ**. All compile symbolic EchoKey gates to native `RZ/RY/RZ` (or a single `RZ` on Z-aligned axes) and are verified by fidelity checks and algebraic identities. A toy script shows how **Pauli operators emerge** from a 7-operator EchoKey frame.
+Tiny, reproducible demos of the **EchoKey** operator family, passes, and math.
+Days **1–7** introduce seven single-qubit EchoKey generators that compile exactly to native `RZ/RY/RZ` (**layout-aware**, with fast paths where applicable) and verify **SU(2) closure** plus **emergent Pauli** from a 7-direction frame. Day **8** adds a **QASM→EchoKey** converter and a sparse runner.
 
-## Contents
+## Days 1–7 (super quick)
 
-* Day files (pass + demos + PDF walkthrough)
+* **Day 1 — Cyclicity**: `ek_cyc(θ) ≡ e^{-iθ (a₁·σ)}` → exact ZYZ rewrite.
+* **Day 2 — Recursion**: `ek_rec(θ) ≡ e^{-iθ (a₂·σ)}` → same rewrite; SU(2) closure checks.
+* **Day 3 — Fractality**: `ek_frac(θ) ≡ e^{-iθ σ_z}` with **Z-axis fast path**.
+* **Day 4–6**: additional axes/diagonals; multi-qubit demos preserve fidelity ≈ 1.
+* **Day 7 — Symplectify**: canonicalization, commutator/anti-commutator numeric checks.
+* **Math toy**: from 7 local directions (rows of $A$), the right inverse $B=(A^TA)^{-1}A^T$ yields $S_i=\sum_k B_{ik}E_k^\circ=\sigma_i$ (emergent Pauli), with single-/two-qubit equivalence.
 
-  * `day_01_echokey_cyclicity.py` · `day_01_echokey_cyclicity.pdf` (k=0, X)
-  * `day_02_echokey_recursion.py` · `day_02_echokey_recursion.pdf` (k=1, Y)
-  * `day_03_echokey_fractality.py` · `day_03_echokey_fractality.pdf` (k=2, Z; **Z-fast path**)
-  * `day_04_echokey_diagonality.py` · `day_04_echokey_diagonality.pdf` (k=3, XY diagonal)
-  * `day_05_echokey_diagonality_Yz.py` · `day_05_echokey_diagonality_Yz.pdf` (k=4, YZ diagonal)
-  * `day_06_echokey_diagonality_Xz.py` · `day_06_echokey_diagonality_Xz.pdf` (k=5, XZ diagonal)
+> Everything compiles to basis gates; no opaque `UnitaryGate` left in the IR. Fidelity checks target ≈ 1.0 (global-phase invariant).
 
-* Unified (comment-walkthrough) runners
+---
 
-  * `combined_one_two.py` (Days 1–2)
-  * `combined_one_to_three.py` (Days 1–3)
-  * `combined_one_to_four.py` (Days 1–4)
-  * `combined_one_to_five.py` (Days 1–5)
-  * `combined_one_to_six.py` (Days 1–6, current)
+## Day 8 — QASM→EchoKey (work in progress)
 
-* Math toy (emergent Pauli)
+Goal: take an OpenQASM 2.0 circuit; on each wire, fuse every 1-qubit block into at most **three EchoKey ops** using the exact ZYZ identity
 
-  * `ghettomath.py` · `ghettomath.pdf`
+$R_z(\alpha)R_y(\beta)R_z(\gamma)\;\mapsto\;
+\mathrm{ek\_frac}(\alpha/2)\,\mathrm{ek\_rec}(\beta/2)\,\mathrm{ek\_frac}(\gamma/2)$
 
-## Install
+We **preserve boundaries** (multi-qubit gates, barriers, resets, measurements, conditionals) and **bitstrings 1-to-1** (no approximations).
+
+### Files
+
+* `day_08_step_01_echokey_QASM.py` — **converter** (QASM2 → EchoKey-QASM2)
+
+  * Declares two opaque gates at the top:
+
+    ```
+    opaque ek_rec(theta) q;   // Y-axis: exp(-i·theta·σ_y)
+    opaque ek_frac(theta) q;  // Z-axis: exp(-i·theta·σ_z)
+    ```
+- Fuses supported 1q gates (`u,u2,u3,p,rx,ry,rz,id,x,y,z,h,s,sdg,t,tdg,sx,sxdg`) into ZYZ, then maps
+  `RZ(λ) → ek_frac(λ/2)` and `RY(β) → ek_rec(β/2)`.
+  * Treats any multi-qubit/conditional/non-unitary as a **flush boundary**.
+
+* `day_08_step_02_echokey_run_sparse_or_compare.py` — **runner**
+
+  * Default: load EchoKey-QASM, expand `ek_*` back to `RZ/RY` for simulation, and run on Aer **sparse** backend (`method=matrix_product_state`).
+  * `--compare`: also run the **original** QASM on standard Aer and compare counts (exact match + TVD).
+
+### Install (tested on Qiskit 1.4)
 
 ```bash
 python -m venv .venv
@@ -35,90 +53,54 @@ source .venv/bin/activate
 # Windows (PowerShell)
 .venv\Scripts\Activate.ps1
 
-pip install qiskit==1.4.0 numpy scipy networkx
+pip install "qiskit==1.4.*" "qiskit-aer==0.*" numpy
 ```
 
-> Qiskit **1.4** is required for `from qiskit.synthesis import OneQubitEulerDecomposer`.
-
-## Quick Start
-
-### One file (Days 1–6, closure checks + Z-fast)
+### Step 1 — Convert to EchoKey-QASM
 
 ```bash
-python combined_one_to_six.py
+python day_08_step_01_echokey_QASM.py --in path/to/input.qasm --out path/to/output_ek.qasm --verify --print
 ```
 
-You’ll see: two-gate `ek_cyc → ek_rec` with an axis–angle printout; Day 1–6 demos (≈ 1.0 fidelity each); **XYX** SU(2) span; **Lie** $\[a!\cdot!\sigma,,b!\cdot!\sigma]=2i(a\times b)!\cdot!\sigma\$ and **Jordan** \${a!\cdot!\sigma,,b!\cdot!\sigma}=2(a!\cdot!b)I\$ checks; multi-qubit per-site frames.
+* `--verify` reconstructs the **unitary prefix** (before first measure/reset) and checks fidelity ≈ 1.
+* Output is still **OpenQASM 2.0** with `ek_rec/ek_frac` **opaque** declarations at the top.
 
-Or run days individually:
+### Step 2 — Run sparse (or compare vs raw)
+
+Sparse-only (default):
 
 ```bash
-python day_01_echokey_cyclicity.py
-python day_02_echokey_recursion.py
-python day_03_echokey_fractality.py
-python day_04_echokey_diagonality.py
-python day_05_echokey_diagonality_Yz.py
-python day_06_echokey_diagonality_Xz.py
+python day_08_step_02_echokey_run_sparse_or_compare.py \
+  --echokey path/to/output_ek.qasm --shots 8192 --seed 2025
 ```
 
-Math toy:
+Compare vs raw (toggle on):
 
 ```bash
-python ghettomath.py --export_json
+python day_08_step_02_echokey_run_sparse_or_compare.py \
+  --echokey path/to/output_ek.qasm --compare --normal path/to/input.qasm \
+  --shots 8192 --seed 2025
 ```
 
-Expected: `rank(A)=3`, orthonormality ≈ identity, commutators ≈ su(2); exports `echokey_pauli_injection.json`.
+Output shows per-backend **transpile**/**execute** timing, top counts, **exact-match** and **TVD**.
 
-## What are the Day 1–6 generators?
+### Notes & limits (WIP)
 
-* **Day-1 (Cyclicity)**
-  \$\mathrm{ek\_cyc}(\theta)=\exp!\big(-i,\theta,(\mathbf a\_1!\cdot!\boldsymbol{\sigma})\big)\$ — rotate by \$2\theta\$ about \$\hat{\mathbf a}\_1\$ (≈ X).
+* **QASM2 only.** Some QASM files (especially with non-standard includes/macros) may not parse.
+  The runner uses the new `qasm2.loads(...)` with a fallback to `QuantumCircuit.from_qasm_str(...)`.
+* **Opaque EchoKey gates.** Simulators don’t know `ek_*`, so the runner expands them to native `RZ/RY` internally. Hardware back-ends or compilers that understand EchoKey can keep them as-is.
+* **Conditionals.** `if (c==v) op` are treated as boundaries and preserved verbatim.
+* **Bitstrings 1:1.** Conversions are **exact** up to a global phase; final measurement distributions match the original circuit.
+* **Performance.** Sparse (`matrix_product_state`) is recommended. Classical-reversible benchmarks (e.g., adders/multipliers with basis-state inputs) are deterministic; consider running **1 shot** or using a boolean evaluator if desired.
 
-* **Day-2 (Recursion)**
-  \$\mathrm{ek\_rec}(\theta)=\exp!\big(-i,\theta,(\mathbf a\_2!\cdot!\boldsymbol{\sigma})\big)\$ — about \$\hat{\mathbf a}\_2\$ (≈ Y).
+### Quick dataset ideas
 
-* **Day-3 (Fractality)**
-  \$\mathrm{ek\_frac}(\theta)=\exp!\big(-i,\theta,(\mathbf a\_3!\cdot!\boldsymbol{\sigma})\big)\$ — about \$\hat{\mathbf a}\_3\$ (≈ Z).
-  **Fast path:** if \$\hat{\mathbf a}\_3\approx\pm\hat z\$, then \$e^{-i\theta(\pm\sigma\_z)} \sim RZ(\pm 2\theta)\$ (ignore global phase).
+* **QASMBench** (PNNL) has `small/` (teleportation, grover), `medium/` (qft\_n16, adder\_n25), `large/` (multiplier\_n45 under 60 qubits). Grab a few and run them through the two-step flow.
 
-* **Day-4 (Diagonality-XY)**
-  \$\mathrm{ek\_diagxy}(\theta)=\exp!\big(-i,\theta,(\mathbf a\_4!\cdot!\boldsymbol{\sigma})\big)\$ with \$\mathbf a\_4\propto(1,1,0)\$.
+---
 
-* **Day-5 (Diagonality-YZ)**
-  \$\mathrm{ek\_diagyz}(\theta)=\exp!\big(-i,\theta,(\mathbf a\_5!\cdot!\boldsymbol{\sigma})\big)\$ with \$\mathbf a\_5\propto(0,1,1)\$.
+**License:** CC0-1.0 (Public Domain).
+If you use this, please cite:
+**“8 Days of EchoKey — Day 8: QASM→EchoKey (bitstring-preserving ZYZ fusion)”**
 
-* **Day-6 (Diagonality-XZ)**
-  \$\mathrm{ek\_diagxz}(\theta)=\exp!\big(-i,\theta,(\mathbf a\_6!\cdot!\boldsymbol{\sigma})\big)\$ with \$\mathbf a\_6\propto(1,0,1)\$.
-
-**Exact ZYZ rewrite (phase-equivalent):**
-
-$$
-U(\varphi,\hat{\mathbf n})=\cos\!\frac{\varphi}{2}\,I - i\sin\!\frac{\varphi}{2}(\hat{\mathbf n}\!\cdot\!\boldsymbol{\sigma})
-\Rightarrow
-U = RZ(\alpha)\,RY(\beta)\,RZ(\gamma),
-$$
-
-with \$\varphi=2\theta\$ and \$\hat{\mathbf n}=\mathbf a\_k\$.
-
-## SU(2) closure (what we check)
-
-* **Two-gate pair:** `ek_cyc · ek_rec` → prints the **effective axis** and angle of the product.
-* **XYX span:** \$\text{ek}[X](\alpha),\text{ek}[Y](\beta),\text{ek}[X](\gamma)\$ composes to arbitrary ZYZ (SU(2)).
-* **Lie/Jordan:** errors \~ 0 across examples.
-
-## Integrating with UCC
-
-* Run the pass **after layout** (or provide `final_layout`) so axes read from **physical** wires.
-* Emits basis gates (`RZ`, `RY`, `RZ`) — on Z-aligned axes emits a single `RZ`.
-* Use the materializer to assert unitary equivalence (fidelity ≈ 1).
-
-## Troubleshooting
-
-* **Fidelity < 1?** Compare the materialized reference against the **pass-only** rewrite (no routing). Ensure \$A^{(p)}\$ is keyed by physical indices and the pass sees `final_layout`.
-* **Euler branches:** angles aren’t unique; results are phase-equivalent.
-* **Near-identity:** when \$\varphi\to 0\$, any axis is fine; guards are in place.
-
-## License & Citation
-
-**CC0-1.0** (Public Domain).
-Please cite: **“8 Days of EchoKey — Days 1–6: Cyclicity, Recursion, Fractality, Diagonality-XY, Diagonality-YZ & Diagonality-XZ → ZYZ (layout-aware + Z-fast).”**
+Happy compiling ✨
