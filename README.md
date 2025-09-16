@@ -89,3 +89,6 @@ This research delves into the theoretical realm of quantum gravity, investigatin
 **Demonstrate that Pauli operators emerge from EchoKey operators**
 
 A tiny, reproducible repo that introduces the EchoKey operator family and a layout-aware Z–Y–Z rewrite suitable for the Unitary Compiler Collection (UCC). Day 1: Cyclicity; Day 2: Recursion; Day 3: Fractality (with a Z-axis fast path); Day 4: Diagonality-XY; Day 5: Diagonality-YZ. All compile symbolic EchoKey gates to native RZ/RY/RZ (or a single RZ on Z-aligned axes), verified by unitary-fidelity checks and algebraic identities. A toy script shows how Pauli operators emerge from a 7-operator EchoKey frame.
+
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-Jon%20Poplett-purple?style=for-the-badge&logo=github)](https://github.com/sponsors/jgptech)
