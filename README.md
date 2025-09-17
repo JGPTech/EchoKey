@@ -39,59 +39,15 @@ admit local (or global) well-posedness under minimal, explicit hypotheses?
 
 ---
 
-## How to read this repo
-
-- **/specs/** — LaTeX and PDF drafts phrased as questions (no assertions).  
-- **/operators/** — Minimal, self-contained math snippets illustrating each block’s definition domain and edge cases.  
-- **/notes/** — Short “why” questions with small derivations or counterexamples.  
-- **/figs/** — Diagrams that depict operator ordering and commutators (if present).
-
-If something reads like a statement, it’s probably mis-scoped. Please open an issue to rewrite it as a question.
-
----
-
 ## Active inquiry tracks (question-first)
 
 ### 1) EchoKey & Encryption (exploratory)
-- *Question:* Do rolling transforms, permutation maps, and operator composition produce keystreams whose structure resists known analytical simplifications?
-- *Question:* Which operator orderings collapse to recognizable linear forms (and which provably do not)?
-- *Artifacts:* toy constructions; proofs of reduction or counterexamples.
 
 ### 2) Quantum–Classical Sequencing (layout & identifiability)
-- *Question:* Can a Z–Y–Z (or similar) layout derived from EchoKey operators be reduced to native rotations with verifiable unitary fidelity bounds?
-- *Question:* What minimal assumptions recover Pauli-like behavior from a 7-operator frame?
-- *Artifacts:* symbolic rewrites; unitary-fidelity checks; algebraic identities.
 
 ### 3) EchoKey–EFECGSC (gravitational modeling, formal side only)
-- *Question:* Under what conditions do multiscale potentials plus coupling yield well-posed dynamics in the selected function space?
-- *Question:* Which observables remain identifiable under projection or partial measurements?
-- *Artifacts:* definitions, existence questions, and negative results (if any).
 
 ### 4) Eight Days of EchoKey (tiny reproducible walkthrough)
-- *Question:* Does a day-by-day introduction (Cyclicity → Recursion → Fractality → …) produce a minimal working grammar that compiles to a standard gate set?
-- *Artifacts:* layout-aware rewrites; unitary checks; small, auditable scripts.
-
----
-
-## Minimal conventions
-
-- **Spaces:** default to separable Hilbert spaces; upgrade to \(H^s\) or \(\ell^2\) when needed.  
-- **Proof posture:** prefer counterexamples and small lemmas over sweeping claims.  
-- **Reproducibility:** notebooks and scripts should run without network access and specify seeds.  
-- **Language:** frame every section as one or more questions; reserve “Definition” for precise objects only.
-
----
-
-## Contributing (question templates)
-
-When opening an issue or PR, start with one of these:
-
-- *Well-posedness:* “Under assumptions A–C, does operator block X define a locally Lipschitz map on domain D?”  
-- *Commutation:* “Does \([X,Y]\) vanish (or remain small) in norm \(\|\cdot\|\) on class K?”  
-- *Counterexample:* “Can a finite-time blow-up be constructed for ordering \(X\circ Y\) under weights \( \{\alpha_k\} \)?”  
-- *Identifiability:* “Are parameters \( \theta \) identifiable from \( P\mathbf{c}(t) \) over \([0,T]\)?”
-
-PRs that introduce claims without a testable question will be redirected to a question-first rewrite.
 
 ---
 
