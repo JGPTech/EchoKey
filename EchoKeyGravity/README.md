@@ -1,124 +1,174 @@
-# EchoKey-EFECGSC — EchoKey-Enhanced Field Equations for Graviton Clustering in Solar-Scale Gravity Cavities
+# EchoKey-EFECGSC
 
-A **research-only** notebook/code exploration of quantum→classical field transitions inside an idealized gravity “cavity.” It couples:
+**EchoKey-Enhanced Field Equations for Graviton Clustering in Solar-Scale Gravity Cavities**
 
-* a **TOV-style** stellar metric backbone,
-* a **graviton-like** Schrödinger evolution with **fractal/recursive** potentials,
-* **EchoKey** operators (cyclicity, synergy, adaptivity, outlier handling),
-* and a **round-trip** demonstration (classicalization → de-classicalization).
+> **Status:** research prototype (unaudited).
+> **License:** **CC0-1.0 (Public Domain)** — “**cite by donating**” (see below).
 
-**Unaudited. Not a physical claim or validated model.**
+A single-file simulation that explores a **round-trip quantum↔classical** transition inside an idealized gravity “cavity.” It couples:
+
+* a **TOV-based solar metric** backbone loaded from `solar_metric_data.npz` (`r`, `g00`, `g11`),
+* a **graviton-like Schrödinger** evolution,
+* lightweight **EchoKey operators** (cyclicity, fractality/recursion, synergy, adaptivity, outlier clamping),
+* and **forward + reverse** phases to test classicalization and return.
+
+**Not** a validated GR/QG solver; results are illustrative only.
+
+---
 
 ## EchoKey Asks — Compliance (Q/A)
 
 1. **What is this repo, narrowly?**
-   A self-contained prototype (notebook(s) and/or scripts) that numerically integrates an idealized TOV background and evolves a toy quantum state with EchoKey hooks to study coherence/fidelity during a quantum↔classical transition.
+   A Python script that (1) loads metric components from `solar_metric_data.npz`, (2) evolves quantum & “classical” toy states with EchoKey hooks, (3) logs metrics (overlap, fidelity, entropy, etc.), (4) saves a CSV and a figure.
 
-2. **What problem does it solve *here* (not in general)?**
-   Gives a reproducible sandbox to test whether EchoKey operators can stabilize/steer a state toward a chosen classical metric and then return, while logging overlap/fidelity/entropy.
+2. **What problem does it solve here (not in general)?**
+   Provides a reproducible sandbox to test whether simple EchoKey-style couplings can steer a state toward a target metric and back, while tracking convergence metrics.
 
 3. **What goes in / what comes out?**
+   **Inputs**
 
-* **Inputs (typical):** a stellar profile (radius, density, pressure) for TOV integration; small config for EchoKey operator weights and seeds.
-* **Outputs (typical):** plots of metric and state evolution, CSV/NPZ logs of metrics (overlap, fidelity, entropy), and round-trip diagnostics printed in the run.
+* `solar_metric_data.npz` containing arrays: `r`, `g00`, `g11`.
+* Optional `initial_conditions.json` (for exact reproducibility).
+* Config parameters (see below).
 
-4. **One-minute demo (works for both notebooks or scripts):**
+**Outputs**
+
+* `bidirectional_evolution.csv` (per-step metrics).
+* `convergence_analysis.png` (9-panel summary plots).
+* Optional `initial_conditions.json` (if generated).
+
+4. **One-minute demo (works with your exact code):**
 
 ```bash
-# (optional) venv
-python -m venv .venv && . .venv/bin/activate  # Windows: .venv\Scripts\activate
-# deps
-pip install -r requirements.txt  # or see Dependencies below
-# open and run the notebook in this repo (preferred)
-jupyter lab   # or: jupyter notebook
-# ...then Run All Cells.
+python -m venv .venv && . .venv/bin/activate      # Windows: .venv\Scripts\activate
+pip install numpy scipy matplotlib pandas
 
-# If a script entry point exists in this repo, it's usually:
-# python efecgsc_run.py --profile data/solar_profile.csv --steps 2000 --seed 1337
-# (Check filenames/flags in the repo before running.)
+# Verify your NPZ exists and has the expected arrays:
+python - << 'PY'
+import numpy as np; d=np.load('solar_metric_data.npz')
+print(list(d.keys()))        # should show ['r','g00','g11']
+print([d[k].shape for k in ['r','g00','g11']])
+PY
+
+# Run the simulation (assuming the file below is saved as efecgsc.py)
+python efecgsc.py
 ```
 
-5. **Threat model / validation status (plain language)?**
+After it finishes you should see:
 
-* This is **not** a tested GR/QG solver and makes simplifying assumptions.
-* No empirical fit or observational validation is claimed.
-* Results are **illustrative**, suitable for sandboxing ideas only.
+* `bidirectional_evolution.csv`
+* `convergence_analysis.png`
+* printed resonance points (overlap peaks > 0.9)
 
-6. **Determinism & seeds — can I reproduce exactly?**
-   Yes—set the seed(s) in the config cell/flags and re-run with the same profile and parameters. EchoKey dynamics (synergy, fractal recursion, cyclicity) are deterministic under fixed seeds.
+5. **Threat/validation status (plain language)?**
 
-7. **EchoKey operator mapping (what’s actually used here)?**
+* Simplifying assumptions; no empirical fit/validation claimed.
+* No GR/QFT rigor or guarantees; purely exploratory.
 
-| Operator                   | Where it lives conceptually         | Role here                                      |
-| -------------------------- | ----------------------------------- | ---------------------------------------------- |
-| **Cyclicity**              | periodic terms in coupling          | phase-locked nudges toward/away from coherence |
-| **Fractality / Recursion** | nested potential builders           | multi-scale structure over the cavity          |
-| **Synergy**                | cross-term matrix on windows/states | couples components for emergent stabilization  |
-| **Adaptivity**             | parameter updates vs metrics        | strengthens/weakens coupling based on fidelity |
-| **Outlier mgmt**           | clamps/penalties                    | keeps dynamics bounded/reversible on spikes    |
+6. **Determinism & seeds**
+   Set `Config.random_seed` and keep `initial_conditions.json` to reproduce bit-for-bit evolutions (for a fixed NPZ).
 
-> These are **lightweight hooks** for experimentation—not a full EchoKey engine.
+7. **EchoKey operator mapping (what’s actually used here)**
 
-8. **Inputs format (repo-scoped expectations):**
-
-* **Stellar profile CSV** with columns typically like: `r`, `rho`, `P` (radius, density, pressure).
-  If your file differs, adjust the loader cell/args accordingly.
-* **Config**: either a params cell in the notebook or CLI flags (if a script is provided).
-
-9. **Outputs you should expect (repo-scoped):**
-
-* Plots: metric components (e.g., $g_{00}, g_{11}$), state amplitude/phase/coherence, round-trip traces.
-* Tables/CSV/NPZ: overlap, fidelity, entropy, step-wise EchoKey parameter values. Exact filenames are printed by the run.
-
-10. **Non-goals (so reviewers don’t assume them):**
-
-* No claim of real graviton detection or uniqueness.
-* No rigorous QFT-in-curved-spacetime derivation.
-* No observational fit to the Sun or any star.
-* No numerical guarantees for stability beyond the clamps shown.
-
-11. **License & how to cite:**
-
-* **License:** **CC0-1.0 (Public Domain).**
-* **How to cite:** “**Cite by donating**” — if this helped your work, consider donating to a scientific charity, local mutual-aid, or an open-source maintainer of your choice.
+| Operator                   | Where in code                                    | Role                                           |
+| -------------------------- | ------------------------------------------------ | ---------------------------------------------- |
+| **Cyclicity**              | `C_n`, `fractal_potential`                       | periodic terms modulate potentials             |
+| **Fractality / Recursion** | `F_n`, `fractal_potential(..., recursion_depth)` | multi-scale shaping of the potential           |
+| **Synergy**                | `synergy_matrix`, `compute_synergy_factor`       | cross-state coupling & adaptive scaling        |
+| **Adaptivity**             | `adaptive_coupling`, layer-dependent dispersion  | strengthens with overlap; layer-aware dynamics |
+| **Outlier clamps**         | explicit clips/bounds in helpers                 | keep evolution bounded/stable                  |
 
 ---
 
-## Dependencies
+## Files & entry point
 
-Minimal set (use `requirements.txt` if present):
+* **This script** (your pasted code) — please confirm filename (e.g., `efecgsc.py`).
+* **`solar_metric_data.npz`** — required; must contain arrays `r`, `g00`, `g11`.
+* *(optional)* **`initial_conditions.json`** — created/loaded for reproducibility.
 
-* `numpy`, `scipy`, `matplotlib`
-* `numba` (optional speedups)
-* `jupyterlab` or `notebook`
-* `sympy` (optional, for symbolic checks)
+> If you want me to add a small `requirements.txt` and a tiny `make test-run`, say the word and I’ll include them.
 
-Install quickly:
+---
 
-```bash
-pip install numpy scipy matplotlib numba jupyterlab sympy
+## Configuration (from `Config`)
+
+```python
+layers=3
+total_time=200.0     # forward (100) + backward (100)
+dt=0.02
+dim_mode=64          # spatial resolution
+x_min=-5.0; x_max=5.0
+mass=1.0
+random_seed=98331050
+metric_file='solar_metric_data.npz'
+initial_conditions_file='initial_conditions.json'
+output_csv='bidirectional_evolution.csv'
+output_plot='convergence_analysis.png'
+load_initial_conditions=False
 ```
 
-## Typical Workflow
+Tune knobs:
 
-1. **Load profile** → integrate **TOV** to obtain metric components over radius.
-2. **Initialize state** → graviton-like wavefunction in cavity bounds.
-3. **Evolve forward** with EchoKey operators active (fractality/synergy/cyclicity/adaptivity).
-4. **Measure metrics** each step: overlap with target classical field, fidelity, entropy.
-5. **Reverse pass** to test round-trip.
-6. **Log & plot** results.
+* **Resolution/step**: `dim_mode`, `dt`
+* **Round-trip length**: `total_time`, `layers`
+* **Repro**: `random_seed`, `load_initial_conditions=True`
 
-## Troubleshooting (repo-scoped)
+---
 
-* **Exploding/NaN values** → lower step size; increase clamps; reduce fractal depth/synergy gain.
-* **Non-reproducibility** → set and print seeds at start of run.
-* **CSV mismatch** → rename columns or edit the loader cell to match your file.
+## Input data format (NPZ)
 
-## Contributing
+`solar_metric_data.npz` must contain:
 
-Small, focused PRs that improve clarity, speed, or reproducibility are welcome. Keep changes strictly within this repo’s scope (EFECGSC toy model).
+* `r`: 1-D radii (meters), strictly increasing
+* `g00`: metric $g_{00}(r)$ sampled on `r`
+* `g11`: metric $g_{11}(r)$ sampled on `r`
 
-## License
+The code interpolates to the simulation grid via cubic splines and **extrapolates** outside `r` (you can tighten that if desired).
 
-**CC0-1.0 — Public Domain.** Do anything you want.
-If you want to “cite,” **please donate** to a good cause instead.
+> If you want, I can add a **validator** cell/script that checks monotonicity, finite values, and reasonable ranges before running.
+
+---
+
+## Outputs
+
+* **CSV:** `bidirectional_evolution.csv` with columns like:
+
+  * `time`, `q_layer`, `c_layer`, `coupling_strength`, `phase_coherence`,
+  * quantum metrics `q_*` and classical metrics `c_*` (`uncertainty_*`, `coherence`, `entropy`, `ipr`, `num_peaks`, `x_expectation`),
+  * similarity metrics `similarity_overlap`, `similarity_trace_distance`, `similarity_fidelity`, `similarity_js_divergence`.
+
+* **Figure:** `convergence_analysis.png` (9 panels: uncertainties, coherences, entropies, IPRs, overlap, trace distance, fidelity, JS divergence, layer counts).
+
+* **STDOUT:** “resonance points” where overlap peaks exceed 0.9.
+
+---
+
+## Troubleshooting
+
+* **`FileNotFoundError: solar_metric_data.npz`**
+  Put the NPZ in the same directory or set `Config.metric_file` to its path.
+
+* **`KeyError: 'g00'` / wrong arrays**
+  Ensure NPZ has **exact** keys: `r`, `g00`, `g11`.
+
+* **NaNs / blow-ups**
+  Lower `dt`, reduce `layers`, or reduce recursion depth in `fractal_potential`.
+
+* **No resonance peaks**
+  Try longer `total_time`, different `random_seed`, or tweak layer counts.
+
+---
+
+## Non-goals
+
+* Not a substitute for numerical relativity, TOV solvers, or QFT in curved spacetime.
+* No empirical claim about real solar graviton phenomena.
+* No performance guarantees; it’s a clarity-first reference implementation.
+
+---
+
+## License & “cite by donating”
+
+* **CC0-1.0 — Public Domain.** Use, remix, and redistribute without restriction.
+* If this helped you, **please “cite by donating”** to a scientific charity, local mutual-aid, or an open-source maintainer you rely on.
+
