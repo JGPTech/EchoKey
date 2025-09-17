@@ -170,5 +170,5 @@ The code interpolates to the simulation grid via cubic splines and **extrapolate
 ## License & “cite by donating”
 
 * **CC0-1.0 — Public Domain.** Use, remix, and redistribute without restriction.
-* If this helped you, **please “cite by donating”** to a scientific charity, local mutual-aid, or an open-source maintainer you rely on.
+* If this helped you, **please “cite by donating”** keep the EchoKey dream alive. 
 
