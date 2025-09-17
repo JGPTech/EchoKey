@@ -1,145 +1,115 @@
-# Quantum-Classical Hybrid Sequencer with EchoKey Integration
+# EchoKey-Quantum-Sequencer
 
-This project combines quantum computing with classical machine learning to create a sophisticated sequencer capable of predicting and extending multi-dimensional fractal sequences. The integration of the EchoKey system enhances performance by introducing entropy injection, synergy measurements, and refraction effects.
+A **notebook-based**, quantum-classical toy sequencer that predicts/extends integer sequences using base-10 quantum encoding ideas + classical ML, with light **EchoKey** operator hooks (cyclicity, fractality, synergy, entropy/refraction). **Research only.**
 
-## Features
+## EchoKey Asks — Compliance (Q/A)
 
-* **Quantum Base-10 Encoding:** Efficiently encodes base-10 digits (0-9) using a quantum system.
-* **Machine Learning Integration:** Employs Random Forest and LSTM networks to learn and predict sequence patterns.
-* **EchoKey System Integration:**  Enhances the sequencer with:
-    * Cyclicity
-    * Fractality
-    * Entropy injection
-    * Synergy measurements
-* **Refraction Effects:** Adjusts measurement probabilities based on fractal layers and synergy parameters.
-* **Extensible and Configurable:**  Easy customization of critical parameters.
-* **Visualization:**  Plots predicted digits for analysis.
+1. **What is this repo, narrowly?**
+   A single Jupyter notebook that loads an integer sequence (CSV), applies base-10 encoding + EchoKey-style dynamics, and trains simple ML models to predict the next digits. Plots show predictions; optional CSVs are written from within the notebook.
 
-## EchoKey System Integration
+2. **What problem does it solve here (not in general)?**
+   Demonstrates how EchoKey operators can bias/shape a small sequence-prediction pipeline and how base-10 quantum encodings can be prototyped in a classical workflow.
 
-The EchoKey system is a novel framework that enhances computational models by introducing cyclicity, fractality, and entropy injection. In this sequencer, EchoKey components improve prediction accuracy and system robustness.
+3. **What goes in / what comes out?**
 
-### EchoKey Components
+* **Input:** one of the included CSVs (`recaman_puzzle.csv`, `fibonacci_puzzle.csv`, `a003001_puzzle.csv`) with integer sequences.
+* **Output:** inline plots in the notebook and (optionally) CSVs the notebook saves (filenames are shown in output cells).
 
-* **RollingWindow:**
-    * Manages a fixed-size rolling window to track recent state values.
-    * Used in calculating synergy parameters.
-* **KeystreamScrambler:**
-    * Injects entropy into measurement probabilities.
-    * Enhances quantum state measurements by adding controlled randomness.
+4. **One-minute demo (no boilerplate):**
 
-### Synergy Measurements
+```bash
+# 1) create and activate a venv (optional)
+python -m venv .venv && . .venv/bin/activate  # Windows: .venv\Scripts\activate
+# 2) install deps
+pip install -r requirements.txt  # or see "Dependencies" below
+# 3) start Jupyter
+jupyter lab  # or: jupyter notebook
+# 4) open EchoKey-Quantum-Sequencer.ipynb and run all cells
+#    when prompted in the notebook, pick one CSV (e.g., recaman_puzzle.csv)
+```
 
-Synergy measurements capture interdependencies within the system's states. The sequencer calculates synergy parameters (alpha, beta, gamma) using the `RollingWindow`:
+5. **Threat model & status (plain language)?**
+   This repo is **not** a cryptosystem, validator, or production forecaster. No formal guarantees, audits, or statistical significance claims. It is a **prototype** for exploration.
 
-* **Alpha (α):** Mean of neighboring state probabilities.
-* **Beta (β):** Standard deviation of neighboring state probabilities.
-* **Gamma (γ):** Minimum of neighboring state probabilities.
+6. **Determinism & seeds—can I reproduce?**
+   The notebook exposes seeds in its config cell(s). Set them and re-run all cells with the same CSV to reproduce plots/outputs.
 
-These parameters inform refraction effects and enhance sequence prediction.
+7. **EchoKey operator mapping (what’s actually used here)?**
 
-### Refraction Effect
+| Operator             | Where it appears                           | Role in this repo              |
+| -------------------- | ------------------------------------------ | ------------------------------ |
+| Cyclicity            | periodic terms in feature/gen steps        | seasonal/phase bias in digits  |
+| Fractality           | recursive transforms / multi-scale windows | capture self-similar structure |
+| Synergy              | rolling-window stats between features      | cross-feature coupling         |
+| Entropy / Refraction | noise/temperature & probability “bending”  | regularization / exploration   |
 
-The refraction effect dynamically adjusts measurement probabilities based on fractal complexity and recent state interactions.
+> Note: These are lightweight hooks for experimentation—not a full EchoKey engine.
 
-## Architecture
+8. **Actual surfaces you can touch (files):**
 
-The sequencer operates through an iterative process:
+* `EchoKey-Quantum-Sequencer.ipynb` — run this end-to-end.
+* `Base10Encoding.md` — notes on base-10 encoding ideas used in the notebook.
+* `recaman_puzzle.csv`, `fibonacci_puzzle.csv`, `a003001_puzzle.csv` — sample sequences.
 
-1.  **Data Initialization:** Reads the target sequence and assigns fractal layers.
-2.  **Quantum State Preparation:** Encodes digits into quantum states and injects entropy.
-3.  **Synergy Calculations:** Calculates synergy parameters using the `RollingWindow`.
-4.  **Refraction Application:** Adjusts measurement probabilities.
-5.  **Machine Learning Integration:**  
-    * Random Forest classifies digits.
-    * LSTM learns temporal patterns.
-6.  **Prediction and Extension:** Predicts and extends the sequence.
-7.  **Data Logging and Visualization:** Logs data and visualizes predicted digits.
+9. **How do I change data & knobs (what’s supported)?**
+   Open the notebook’s **Config** cell(s) and set: chosen CSV path, train/test split, model choices (e.g., RF, LSTM), window sizes, EchoKey hook strengths (entropy/refraction/synergy), and random seeds.
 
-## Installation
+10. **Non-goals (avoid assumptions):**
 
-1.  Ensure you have Python 3.7 or higher.
-2.  Clone the repository:
-    ```bash
-    git clone [https://github.com/yourusername/quantum-classical-hybrid-sequencer.git](https://github.com/yourusername/quantum-classical-hybrid-sequencer.git)
-    cd quantum-classical-hybrid-sequencer
-    ```
-3.  Create a virtual environment (optional but recommended):
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
-4.  Install dependencies:
-    ```bash
-    pip install -r requirements.txt 
-    ```
-    or
-    ```bash
-    pip install numpy pandas pennylane scikit-learn tensorflow matplotlib
-    ```
+* Not a benchmark against SotA sequence models.
+* No quantum hardware execution; quantum bits are conceptual/encoded.
+* No persistence of a CLI or package API outside the notebook.
 
-## Usage
+11. **License & attribution:**
+    MIT (as stated below). Attribution appreciated: **Jon Poplett (JGPTech)**.
 
-### Configuration
-
-Adjust the parameters at the top of the `sequencer.py` script as needed.
-
-### Running the Sequencer
-
-1.  Place your target CSV file (e.g., `recaman_puzzle.csv`) in the working directory.
-2.  Execute the script:
-    ```bash
-    python sequencer.py
-    ```
-
-## Output
-
-* **CSV Files:** Detailed logs of each run are saved in the `simulation_results` directory.
-* **Plots:** Visualizations of predicted digits are displayed.
+---
 
 ## Project Structure
 
 ```
-quantum-classical-hybrid-sequencer/
-│
-├── sequencer.py                  # Main script
-├── recaman_puzzle.csv            # Sample CSV file
-├── simulation_results/           # Output directory
-│   ├── Run_1_Data_YYYYMMDD_HHMMSS.csv
-│   └── Run_1_Extended_Data_YYYYMMDD_HHMMSS.csv
-├── requirements.txt              # Dependencies
-└── README.md                     # This file
+EchoKey-Quantum-Sequencer/
+├── EchoKey-Quantum-Sequencer.ipynb   # main notebook (run this)
+├── Base10Encoding.md                 # base-10 encoding notes
+├── recaman_puzzle.csv                # sample sequence
+├── fibonacci_puzzle.csv              # sample sequence
+├── a003001_puzzle.csv                # sample sequence
+└── README.md                         # this file
 ```
 
 ## Dependencies
 
-* NumPy
-* pandas
-* PennyLane
+Minimum (use `requirements.txt` if present):
+
+* numpy, pandas, matplotlib
 * scikit-learn
-* TensorFlow
-* Matplotlib
-* psutil (optional)
+* tensorflow (for LSTM experiments)
+* pennylane (for encoding experiments)
+* jupyterlab or notebook
 
-## Results
+Install:
 
-The sequencer outputs progress updates, final predictions, CSV logs, and visual plots for analysis.
+```bash
+pip install numpy pandas matplotlib scikit-learn tensorflow pennylane jupyterlab
+```
 
-## Troubleshooting
+## Running & Outputs
 
-Refer to the README for troubleshooting tips related to syntax errors, CSV file issues, dependencies, and quantum simulation errors.
+1. **Launch Jupyter** and open `EchoKey-Quantum-Sequencer.ipynb`.
+2. **Run all cells**. Select one of the included CSVs.
+3. **See results inline** (predictions/plots). If the notebook writes CSV outputs, it prints the exact path(s) in the output cells.
+
+## Troubleshooting (repo-scoped)
+
+* **Missing packages:** install the deps above.
+* **TensorFlow errors on CPU-only:** reduce model size or switch to the RF path in the config cell.
+* **Reproducibility:** set seeds in the config cell before running.
+* **CSV format:** ensure a single integer column or follow the notebook’s loading cell instructions.
 
 ## Contributing
 
-Contributions are welcome! Fork the repository, create a new branch, commit your changes, and open a pull request.
+Small, self-contained PRs that improve the **notebook** (repro, clarity, speed, comments) are welcome. Keep scope aligned with this repo.
 
 ## License
 
-This project is licensed under the MIT License.
-
-## Acknowledgements
-
-* PennyLane
-* scikit-learn
-* TensorFlow
-* EchoKey Framework
+CC0 - cite by donating. Keep the EchoKey dream alive.
