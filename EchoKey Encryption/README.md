@@ -201,4 +201,4 @@ This is experimental cryptography. **Do not** depend on it for confidentiality, 
 
 ## Maintainers
 
-**Jon Poplett (JGPTech)** — CC0-1.0. PRs welcome if they stay within scope (encryption demo + operator mapping).
+**Jon Poplett (JGPTech)** — CC0 - cite by donating. Keep the EchoKey dream alive. PRs welcome if they stay within scope (encryption demo + operator mapping).
