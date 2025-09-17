@@ -1,94 +1,109 @@
-# EchoKey: Exploring Complex Systems Through a Unified Mathematical Framework
+# EchoKey · EchoKey asks
 
-Welcome to the EchoKey research page!
-
-EchoKey is a novel mathematical framework designed to analyze, control, and optimize complex systems. It draws inspiration from diverse fields like quantum mechanics, fractal geometry, and chaos theory, integrating concepts such as cyclicity, recursion, fractality, synergy, and outlier management. This framework provides a powerful toolkit for understanding and predicting the behavior of intricate systems across various domains.
-
-At its core, EchoKey is built on the belief that physics and complex systems are accessible to anyone with a curious mind, a willingness to ask questions, and the dedication to put in the hours. We see inquiry as a universal skill—not the domain of a select few—and EchoKey exists as both a toolset and an invitation: to explore, to challenge, and to discover.
-
-## Core Principles of EchoKey:
-
-*   **Cyclicity:** Recognizes the inherent periodicity and repetitive patterns in many systems.
-*   **Recursion:** Employs self-referential processes to build complex behaviors from simple rules.
-*   **Fractality:** Captures the self-similarity and scaling properties observed in natural and artificial systems.
-*   **Synergy:** Accounts for the emergent properties that arise from the interactions between system components.
-*   **Outlier Management:** Addresses unexpected events and deviations from normal patterns.
-
-These principles are combined within a multidimensional base-10 framework, enabling the representation and manipulation of high-dimensional data.
-
-## Current Research Areas:
-
-EchoKey is currently being applied and explored in three main research areas:
-
-### 1. EchoKey Encryption System
-
-**Unbreakable Security with the Power of Math**
-
-Imagine an encryption system so secure that it's virtually unbreakable, even with the most powerful computers. That's the goal of EchoKey Encryption. This innovative system uses the EchoKey framework to scramble data in a way that's incredibly difficult to decipher.
-
-**Key Features:**
-
-*   Unbreakable Security: EchoKey's complex transformations and dynamic key management make it highly resistant to attacks.
-*   Adaptable and Efficient: The system can be configured for different security needs and is optimized for performance.
-*   Rooted in Advanced Mathematics: EchoKey leverages principles from quantum mechanics, fractal geometry, and other fields to achieve its security goals.
-
-**Key Mechanisms:**
-
-*   Rolling Windows: Maintain recent states for dynamic calculations.
-*   Keystream Scrambling: Injects entropy and randomness for enhanced security.
-*   Flip Maps: Permute byte values for multi-dimensional obfuscation.
-*   Numba Optimization: Accelerates computationally intensive operations.
-
-### 2. Quantum-Classical Hybrid Sequencer
-
-**Predicting the Unpredictable**
-
-This project explores the fascinating intersection of quantum computing and machine learning. It develops a hybrid sequencer that can predict and extend complex, multi-dimensional fractal sequences.
-
-**Key Features:**
-
-*   Quantum Base-10 Encoding: Utilizes a quantum system to efficiently encode base-10 digits.
-*   Machine Learning Integration: Employs Random Forest and LSTM networks to learn sequence patterns.
-*   EchoKey Enhancements: Integrates EchoKey principles to improve prediction accuracy and robustness.
-*   Refraction Effects: Dynamically adjusts measurement probabilities based on fractal layers and synergy.
-
-**Key Mechanisms:**
-
-*   Quantum State Preparation: Encodes digits into quantum states using amplitude embedding and phase rotations.
-*   Synergy Measurements: Calculates synergy parameters to inform refraction and enhance predictions.
-*   Machine Learning Models: Random Forest classifies digits, and LSTM learns temporal patterns.
-
-### 3. EchoKey-EFECGSC Framework
-
-**Unraveling the Mysteries of Quantum Gravity**
-
-This research delves into the theoretical realm of quantum gravity, investigating the transition between quantum and classical states in gravitational fields.
-
-**Key Features:**
-
-*   Unified Framework: Integrates EchoKey principles with concepts from general relativity and quantum field theory.
-*   Solar Data Integration: Utilizes real solar metric data to model gravitational phenomena.
-*   Bidirectional Simulation: Simulates both the quantum-to-classical and classical-to-quantum transitions.
-*   Adaptive Coupling and Synergy: Models the dynamic interplay between quantum and classical states.
-
-**Key Mechanisms:**
-
-*   Fractal Potentials: Generate complex potentials based on recursive cyclic components.
-*   Synergy Matrix: Represents nonlinear coupling between graviton states.
-*   Position-Dependent Refraction: Calculates refraction indices based on metric components.
-*   Dispersive Kinetic Operator: Models the kinetic energy with layer-dependent dispersion.
-
-**Key Findings:**
-
-*   Resonance Points: Identifies specific times where strong overlap between quantum and classical states occurs.
-*   Layer Evolution: Observes the dynamic evolution of quantum and classical layers during the simulation.
-*   Convergence Analysis: Analyzes metrics like uncertainty product, coherence, entropy, and state similarity.
-
-### 4. Eight days of EchoKey
-
-**Demonstrate that Pauli operators emerge from EchoKey operators**
-
-A tiny, reproducible repo that introduces the EchoKey operator family and a layout-aware Z–Y–Z rewrite suitable for the Unitary Compiler Collection (UCC). Day 1: Cyclicity; Day 2: Recursion; Day 3: Fractality (with a Z-axis fast path); Day 4: Diagonality-XY; Day 5: Diagonality-YZ. All compile symbolic EchoKey gates to native RZ/RY/RZ (or a single RZ on Z-aligned axes), verified by unitary-fidelity checks and algebraic identities. A toy script shows how Pauli operators emerge from a 7-operator EchoKey frame.
-
+> **EchoKey asks.**  
+> Can a small family of reusable mathematical operators act on heterogeneous equations  
+> so that composition is explicit, analyzable, and reproducible?
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-Jon%20Poplett-purple?style=for-the-badge&logo=github)](https://github.com/sponsors/jgptech)
+
+---
+
+## What is this repository?
+
+This repo collects notes, derivations, and minimal examples that frame EchoKey **as questions**.  
+The goal is to formulate precise, checkable inquiries and to record the artifacts (definitions, lemmas, counterexamples, notebooks) that arise while investigating them.
+
+**Non-goals:** production guarantees, performance claims, benchmark numbers, or application marketing.
+
+---
+
+## What EchoKey asks (v2)
+
+EchoKey v2 treats equations as objects and introduces seven operator blocks intended for composition:
+
+- **Cyclicity** `𝒞`: Does periodic structure extracted by `𝒞` commute with time differentiation on the classes we use?
+- **Recursion** `ℛ`: Under which metrics does an iterated transform become a contraction with a unique fixed point?
+- **Fractality** `𝓕`: What decay on multiscale weights ensures unconditional convergence in the chosen space?
+- **Regression (Stability)** `𝒢`: When does a mean-reverting template generate a contraction family?
+- **Synergy (Coupling)** `𝒮`: For a bounded bilinear form, what norms control pairwise and higher-order interactions?
+- **Refraction (Layer/Domain)** `𝓝`: How does a layer transform alter regularity and spectrum across interfaces?
+- **Outliers (Jumps/Measures)** `𝒪`: Which impulse conditions yield a well-posed measure-valued evolution?
+
+**Composite question (v2):**  
+For coordinates \( \mathbf{c}(t) \) of a state \( \Psi \) in a separable Hilbert space,
+does the composite evolution
+\[
+\dot{\mathbf{c}}(t) = \big(\, \mathcal{C}\circ\mathcal{R}\circ\mathcal{F}\circ\mathcal{G}\circ\mathcal{S}\circ\mathcal{N}\circ\mathcal{O} \,\big)[\mathbf{c}(t)]
+\]
+admit local (or global) well-posedness under minimal, explicit hypotheses?
+
+---
+
+## How to read this repo
+
+- **/specs/** — LaTeX and PDF drafts phrased as questions (no assertions).  
+- **/operators/** — Minimal, self-contained math snippets illustrating each block’s definition domain and edge cases.  
+- **/notes/** — Short “why” questions with small derivations or counterexamples.  
+- **/figs/** — Diagrams that depict operator ordering and commutators (if present).
+
+If something reads like a statement, it’s probably mis-scoped. Please open an issue to rewrite it as a question.
+
+---
+
+## Active inquiry tracks (question-first)
+
+### 1) EchoKey & Encryption (exploratory)
+- *Question:* Do rolling transforms, permutation maps, and operator composition produce keystreams whose structure resists known analytical simplifications?
+- *Question:* Which operator orderings collapse to recognizable linear forms (and which provably do not)?
+- *Artifacts:* toy constructions; proofs of reduction or counterexamples.
+
+### 2) Quantum–Classical Sequencing (layout & identifiability)
+- *Question:* Can a Z–Y–Z (or similar) layout derived from EchoKey operators be reduced to native rotations with verifiable unitary fidelity bounds?
+- *Question:* What minimal assumptions recover Pauli-like behavior from a 7-operator frame?
+- *Artifacts:* symbolic rewrites; unitary-fidelity checks; algebraic identities.
+
+### 3) EchoKey–EFECGSC (gravitational modeling, formal side only)
+- *Question:* Under what conditions do multiscale potentials plus coupling yield well-posed dynamics in the selected function space?
+- *Question:* Which observables remain identifiable under projection or partial measurements?
+- *Artifacts:* definitions, existence questions, and negative results (if any).
+
+### 4) Eight Days of EchoKey (tiny reproducible walkthrough)
+- *Question:* Does a day-by-day introduction (Cyclicity → Recursion → Fractality → …) produce a minimal working grammar that compiles to a standard gate set?
+- *Artifacts:* layout-aware rewrites; unitary checks; small, auditable scripts.
+
+---
+
+## Minimal conventions
+
+- **Spaces:** default to separable Hilbert spaces; upgrade to \(H^s\) or \(\ell^2\) when needed.  
+- **Proof posture:** prefer counterexamples and small lemmas over sweeping claims.  
+- **Reproducibility:** notebooks and scripts should run without network access and specify seeds.  
+- **Language:** frame every section as one or more questions; reserve “Definition” for precise objects only.
+
+---
+
+## Contributing (question templates)
+
+When opening an issue or PR, start with one of these:
+
+- *Well-posedness:* “Under assumptions A–C, does operator block X define a locally Lipschitz map on domain D?”  
+- *Commutation:* “Does \([X,Y]\) vanish (or remain small) in norm \(\|\cdot\|\) on class K?”  
+- *Counterexample:* “Can a finite-time blow-up be constructed for ordering \(X\circ Y\) under weights \( \{\alpha_k\} \)?”  
+- *Identifiability:* “Are parameters \( \theta \) identifiable from \( P\mathbf{c}(t) \) over \([0,T]\)?”
+
+PRs that introduce claims without a testable question will be redirected to a question-first rewrite.
+
+---
+
+## License
+
+This repository is dedicated to the public domain under **CC0**.  
+If you reuse material, please keep the question framing intact where possible.
+
+---
+
+## Acknowledgments
+
+EchoKey is developed in a question-first spirit by the EchoKey team and collaborators.  
+If your suggestion changed a question or produced a clearer counterexample, please add yourself in the PR.
+
